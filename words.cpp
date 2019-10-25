@@ -23,7 +23,7 @@ void ordenateWords(_word words[], int enWords[], int &size){
 	
 	for(int i=1; i<size; i++)
 		for(j=0; j<size-i; j++){
-			if(stricmp(words[enWords[j]].pt, words[enWords[j+1]].pt) > 0){
+			if(stricmp(words[enWords[j]].en, words[enWords[j+1]].en) > 0){
 				_aux = enWords[j];
 				enWords[j] = enWords[j+1];
 				enWords[j+1] = _aux;
@@ -109,6 +109,7 @@ void translatePhrase(_word words[], int enWords[], int size, char phrase[], int 
 	for(int i=0; i<len; i++){
 		if(phrase[i] != ' '){
 			splitWords[wordsQtd][wordSize++] = phrase[i];
+			splitWords[wordsQtd][wordSize] = '\0';
 		}else{
 			wordsQtd++;
 			wordSize=0;

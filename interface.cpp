@@ -15,32 +15,32 @@ void showInsertWordScreen(_word words[], int enWords[], int &size, int lang){
 		do{
 			readString(_new.pt, 13, 9, 28);
 			if(searchWord(words, enWords, size,_new.pt, 1)!= -1){
-				showToast("Palavra já cadastrada!");
+				showToast("Palavra já cadastrada!", TOAST_WARNING);
 			}
 		}while(searchWord(words, enWords, size,_new.pt, 1)!= -1);
 		removeToast();
-		if(stricmp(_new.pt, "0") == 0)
+		if(stricmp(_new.pt, "\0") == 0)
 			return;
 		
 		do{
 			readString(_new.en, 50, 9, 28);
 			if(searchWord(words, enWords, size,_new.pt, 0)!= -1){
-				showToast("Palavra já cadastrada!");
+				showToast("Palavra já cadastrada!", TOAST_WARNING);
 			}
 		}while(searchWord(words, enWords, size,_new.en, 0)!= -1);
 		removeToast();
-		if(stricmp(_new.en, "0") == 0)
+		if(stricmp(_new.en, "\0") == 0)
 			return;
 			
 		do{
 			readString(_new.meaning, 2, 15, 77);
 			if(stricmp(_new.meaning, "\0") == 0)
-				showToast("Significado vazio!");
+				showToast("Significado vazio!", TOAST_WARNING);
 		}while(stricmp(_new.meaning, "\0") == 0);
 		removeToast();
 		
 		if(addWord(words, enWords, size, _new))
-			showToast("Cadastrado com sucesso!");
+			showToast("Cadastrado com sucesso!", TOAST_SUCCESS);
 	}while(size < TF && stricmp(_new.pt, "\0") != 0 && stricmp(_new.en, "\0") != 0);
 }
 
@@ -60,7 +60,7 @@ void showAlterWordScreen(_word words[], int enWords[], int &size){
 			}
 		}while(searchWord(words, enWords, size,_new.pt, 1)!= -1);
 		removeToast();
-		if(stricmp(_new.pt, "0") == 0)
+		if(stricmp(_new.pt, "\0") == 0)
 			return;
 		
 		do{
@@ -99,7 +99,7 @@ void showConsultWordScreen(_word words[], int enWords[], int &size, int lang){
 		gotoxy(30, 9); printf("Palavra: ");
 		do{
 			if(searchOther)
-				readString(word, 39, 9, 79);
+				readString(word, 39, 9, 20);
 			else{
 				gotoxy(39, 9);puts(word);
 			}
@@ -137,7 +137,7 @@ void showConsultWordScreen(_word words[], int enWords[], int &size, int lang){
 						getch();
 				}
 			}else{
-				showToast("Palavra não encontrada!");
+				showToast("Palavra não encontrada!", TOAST_ERROR);
 			}
 			
 		}while(searchOther == 0);
@@ -151,10 +151,11 @@ void showTranslateScreen(_word words[], int enWords[], int &size, int lang){
 		clearCanvas();
 		showIdioma(lang);
 		printCenter("Traduzir Frases", 7);
-		gotoxy(65, 4);printf("Trad P: %s", (!lang?"PT":"EN"));
+		showIdioma(lang);
+		gotoxy(65, 5);printf("Trad P: %s", (!lang?"PT":"EN"));
 		gotoxy(10, 9);printf("Digite a frase:");
 		gotoxy(10, 13);printf("Tradução:");
-		readString(phrase, 2, 10, 79);
+		readString(phrase, 2, 10, 78);
 		if(stricmp(phrase, "\0") != 0){			
 			translatePhrase(words, enWords, size, phrase, lang, translatedPhrase);
 			gotoxy(2, 14);puts(translatedPhrase);
@@ -173,4 +174,27 @@ void showChangeLangScreen(int &lang){
 	int coord = showMenu(langMenu);
 	
 	lang = coord;
+}
+
+void generateRelatorio(_word words[], int enWords[], int size){
+	FILE *fp;	
+	fp = fopen("relatorio.txt" ,"w");
+	
+	fprintf(fp, "****************PORTUGUÊS****************\n\n");
+	for(int i=0; i<size; i++){
+		fprintf(fp, "========%s========\n", words[i].pt);
+		fprintf(fp, "\tInglês: %s\n", words[i].en);
+		fprintf(fp, "\tSignificado: %s\n\n", words[i].meaning);
+	}
+	fprintf(fp, "****************ENGLISH****************\n\n");
+	for(int i=0; i<size; i++){
+		fprintf(fp, "========%s========\n", words[enWords[i]].en);
+		fprintf(fp, "\tPortuguese: %s\n", words[enWords[i]].pt);
+		fprintf(fp, "\tMeaning: %s\n\n", words[enWords[i]].meaning);
+	}
+	
+	fclose(fp);
+	
+	MessageBeep(MB_OK); // FAZ O WARNING DO SISTEMA
+	system("relatorio.txt");
 }

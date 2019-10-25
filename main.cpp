@@ -36,6 +36,7 @@ int main(void){
 		
 		addMenuOption(mainMenu, "Inserir palavras", enableIn);
 		addMenuOption(mainMenu, "Consultar palavras", enableOut);
+		addMenuOption(mainMenu, "Gerar relatório", enableOut);
 		addMenuOption(mainMenu, "Trocar idioma");
 		addMenuOption(mainMenu, "Traduzir frase", enableOut);
 		addMenuOption(mainMenu, "Sair");
@@ -53,13 +54,16 @@ int main(void){
 				showConsultWordScreen(words, enWords, size, lang);
 				break;
 			case 2:
-				showChangeLangScreen(lang);
+				generateRelatorio(words, enWords, size);
 				break;
 			case 3:
+				showChangeLangScreen(lang);
+				break;
+			case 4:
 				showTranslateScreen(words, enWords, size, lang);
 				break;
 		}
 		clearCanvas();
 		removeToast();
-	}while(coord != 4);
+	}while(coord != 5);
 }
