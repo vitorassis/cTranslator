@@ -7,8 +7,7 @@
 #include "interface.cpp"
 
 int main(void){
-	setlocale(LC_ALL, "Portuguese");
-	setCanvas(' ', 1, 1, 10, 10);
+	setCanvas('.', 1, 1, 10);
 	showTitle("Tradutor", 3);
 	
 	_word words[TF];
@@ -36,7 +35,7 @@ int main(void){
 		
 		addMenuOption(mainMenu, "Inserir palavras", enableIn);
 		addMenuOption(mainMenu, "Consultar palavras", enableOut);
-		addMenuOption(mainMenu, "Gerar relatório", enableOut);
+		addMenuOption(mainMenu, "Gerar relatorio", enableOut);
 		addMenuOption(mainMenu, "Trocar idioma");
 		addMenuOption(mainMenu, "Traduzir frase", enableOut);
 		addMenuOption(mainMenu, "Sair");

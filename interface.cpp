@@ -8,32 +8,32 @@ void showInsertWordScreen(_word words[], int enWords[], int &size, int lang){
 		clearCanvas();
 		showIdioma(lang);
 		printCenter("Inserir palavras", 7);
-		gotoxy(2, 9); printf("Português: ");
-		gotoxy(42, 9); printf("Inglês: ");
+		gotoxy(2, 9); printf("Portugues: ");
+		gotoxy(42, 9); printf("Ingles: ");
 		gotoxy(3, 14); printf("Significado: ");
 		
 		do{
 			readString(_new.pt, 13, 9, 28);
 			if(searchWord(words, enWords, size,_new.pt, 1)!= -1){
-				showToast("Palavra já cadastrada!", TOAST_WARNING);
+				showToast("Palavra ja cadastrada!", TOAST_WARNING);
 			}
 		}while(searchWord(words, enWords, size,_new.pt, 1)!= -1);
 		removeToast();
-		if(stricmp(_new.pt, "\0") == 0)
+		if(strlen(_new.pt) == 1)
 			return;
 		
 		do{
 			readString(_new.en, 50, 9, 28);
 			if(searchWord(words, enWords, size,_new.pt, 0)!= -1){
-				showToast("Palavra já cadastrada!", TOAST_WARNING);
+				showToast("Palavra ja cadastrada!", TOAST_WARNING);
 			}
 		}while(searchWord(words, enWords, size,_new.en, 0)!= -1);
 		removeToast();
-		if(stricmp(_new.en, "\0") == 0)
+		if(strlen(_new.en) == 1)
 			return;
 			
 		do{
-			readString(_new.meaning, 2, 15, 77);
+			readString(_new.meaning, 3, 15, 75);
 			if(stricmp(_new.meaning, "\0") == 0)
 				showToast("Significado vazio!", TOAST_WARNING);
 		}while(stricmp(_new.meaning, "\0") == 0);
@@ -111,7 +111,7 @@ void showConsultWordScreen(_word words[], int enWords[], int &size, int lang){
 			
 				addMenuOption(consultMenu, "Mudar Pesquisa");
 				addMenuOption(consultMenu, "Ver significado");
-				addMenuOption(consultMenu, "Ver tradução");
+				addMenuOption(consultMenu, "Ver traducao");
 				addMenuOption(consultMenu, "Alterar");
 				addMenuOption(consultMenu, "Excluir");
 				
@@ -133,11 +133,11 @@ void showConsultWordScreen(_word words[], int enWords[], int &size, int lang){
 						else
 							clearCoordinates(5, 18, 79, 18);
 							strcpy(palavra, words[index].en);
-						gotoxy(5, 18);printf("Tradução: %s", palavra);
+						gotoxy(5, 18);printf("Traducao: %s", palavra);
 						getch();
 				}
 			}else{
-				showToast("Palavra não encontrada!", TOAST_ERROR);
+				showToast("Palavra nao encontrada!", TOAST_ERROR);
 			}
 			
 		}while(searchOther == 0);
@@ -154,11 +154,11 @@ void showTranslateScreen(_word words[], int enWords[], int &size, int lang){
 		showIdioma(lang);
 		gotoxy(65, 5);printf("Trad P: %s", (!lang?"PT":"EN"));
 		gotoxy(10, 9);printf("Digite a frase:");
-		gotoxy(10, 13);printf("Tradução:");
-		readString(phrase, 2, 10, 78);
+		gotoxy(10, 13);printf("Traducao:");
+		readString(phrase, 3, 10, 75);
 		if(stricmp(phrase, "\0") != 0){			
 			translatePhrase(words, enWords, size, phrase, lang, translatedPhrase);
-			gotoxy(2, 14);puts(translatedPhrase);
+			gotoxy(3, 14);puts(translatedPhrase);
 			getch();
 		}
 	}while(stricmp(phrase, "\0") != 0);
@@ -168,8 +168,8 @@ void showChangeLangScreen(int &lang){
 	showIdioma(lang);
 	menu langMenu = setMenu(9);
 	printCenter("Trocar Idioma", 7);
-	addMenuOption(langMenu, "Inglês");
-	addMenuOption(langMenu, "Português");
+	addMenuOption(langMenu, "Ingles");
+	addMenuOption(langMenu, "Portugues");
 	
 	int coord = showMenu(langMenu);
 	
