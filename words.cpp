@@ -140,3 +140,12 @@ void translatePhrase(_word words[], int enWords[], int size, char phrase[], int 
 		}
 	}
 }
+
+int alterWord(_word words[], int enWords[], int &size, _word temp, int index, int lang){
+	if(lang)
+		words[index] = temp;	
+	else
+		words[enWords[index]] = temp;
+	ordenateWords(words, enWords, size);
+	return 1;
+}
