@@ -2,7 +2,6 @@ struct _word{
 	char pt[50];
 	char en[50];
 	char meaning[150];
-	int active;
 };
 
 void ordenateWords(_word words[], int enWords[], int &size){
@@ -32,10 +31,33 @@ void ordenateWords(_word words[], int enWords[], int &size){
 }
 
 int addWord(_word words[], int enWords[], int &size, _word new_word){
-	new_word.active = 1;
 	words[size] = new_word;
 	size++;
 	ordenateWords(words, enWords, size);
+	return 1;
+}
+
+int alterWord(_word words[], int enWords[], int size, _word temp, int index, int lang){
+	if(lang)
+		words[index] = temp;	
+	else
+		words[enWords[index]] = temp;
+	ordenateWords(words, enWords, size);
+	return 1;
+}
+
+int excludeWord(_word words[], int enWords[], int &size, int index, int lang){
+	int pos;
+	if(lang)
+		pos = index;
+	else
+		pos = enWords[index];
+	
+	for(int i=pos; i<size; i++){
+		words[i] = words[i+1];
+	}
+	
+	size--;
 	return 1;
 }
 
@@ -141,11 +163,3 @@ void translatePhrase(_word words[], int enWords[], int size, char phrase[], int 
 	}
 }
 
-int alterWord(_word words[], int enWords[], int &size, _word temp, int index, int lang){
-	if(lang)
-		words[index] = temp;	
-	else
-		words[enWords[index]] = temp;
-	ordenateWords(words, enWords, size);
-	return 1;
-}
