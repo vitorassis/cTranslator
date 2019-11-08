@@ -4,6 +4,21 @@ struct _word{
 	char meaning[150];
 };
 
+void validateDataFile(){
+	FILE *arq;
+	char fileName[30];
+		
+	strcpy(fileName, "data\words.bin");
+	arq = fopen(fileName, "rb");
+	
+	if(arq == NULL){
+		fclose(arq);
+		arq = fopen(fileName, "wb");
+	}
+	fclose(arq);
+		
+}
+
 void ordenateWords(_word words[], int enWords[], int &size){
 	int indexMaior, j, _aux;
 	_word aux;
